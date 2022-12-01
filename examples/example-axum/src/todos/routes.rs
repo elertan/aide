@@ -12,6 +12,7 @@ use axum::{
 };
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use serde_qs::axum::QsQuery;
 use uuid::Uuid;
 
 use crate::{extractors::Json, state::AppState};
@@ -73,7 +74,12 @@ struct TodoList {
     todo_ids: Vec<Uuid>,
 }
 
-async fn list_todos(State(app): State<AppState>) -> impl IntoApiResponse {
+#[derive(Deserialize, JsonSchema)]
+struct TodoListQuery {
+    filter_ids: Vec<Uuid>,
+}
+
+async fn list_todos(State(app): State<AppState>, QsQuery(qs): QsQuery<TodoListQuery>) -> impl IntoApiResponse {
     Json(TodoList {
         todo_ids: app.todos.lock().unwrap().keys().copied().collect(),
     })

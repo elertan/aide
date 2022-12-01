@@ -130,6 +130,9 @@ pub mod util;
 #[cfg(feature = "axum")]
 pub mod axum;
 
+#[cfg(feature = "serde-qs")]
+pub mod serde_qs;
+
 #[cfg(feature = "redoc")]
 pub mod redoc;
 
