@@ -76,12 +76,24 @@ struct TodoList {
 
 #[derive(Deserialize, JsonSchema)]
 struct TodoListQuery {
-    filter_ids: Vec<Uuid>,
+    filter_ids: Option<Vec<Uuid>>,
 }
 
 async fn list_todos(State(app): State<AppState>, QsQuery(qs): QsQuery<TodoListQuery>) -> impl IntoApiResponse {
+    let todo_ids = if let Some(filter_ids) = qs.filter_ids {
+        app.todos
+            .lock()
+            .unwrap()
+            .keys()
+            .filter(|id| filter_ids.contains(id))
+            .cloned()
+            .collect()
+    } else {
+        app.todos.lock().unwrap().keys().copied().collect()
+    };
+
     Json(TodoList {
-        todo_ids: app.todos.lock().unwrap().keys().copied().collect(),
+        todo_ids,
     })
 }
 

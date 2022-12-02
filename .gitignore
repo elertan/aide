@@ -2,4 +2,5 @@ target
 .vscode
 .local*
 .vscode
+.idea
 Cargo.lock
