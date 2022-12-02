@@ -79,6 +79,7 @@ struct TodoListQuery {
     filter_ids: Option<Vec<Uuid>>,
 }
 
+#[axum::debug_handler]
 async fn list_todos(State(app): State<AppState>, QsQuery(qs): QsQuery<TodoListQuery>) -> impl IntoApiResponse {
     let todo_ids = if let Some(filter_ids) = qs.filter_ids {
         app.todos
