@@ -1,7 +1,7 @@
 //! Support for `QsQuery` from [serde_qs](https://docs.rs/serde_qs) in Aide.
 //!
 //! Enabling this feature allow you to use `QsQuery` as an input for your handlers to be used within Aide's routing functions.
-//! ```no run
+//! ```no_run
 //! use serde::Deserialize;
 //! use serde_qs::axum::QsQuery;
 //! use aide::axum::IntoApiResponse;
